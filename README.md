@@ -38,9 +38,11 @@ The application uses SQLite for storing data. It includes two tables:
 
 ---
 
-## Setup and Usage
+## Setup
 
-### 1. Install Dependencies
+### Using pip
+
+#### 1. Install Dependencies
 
 Make sure you have Python installed. Then, install the required dependencies:
 
@@ -48,21 +50,31 @@ Make sure you have Python installed. Then, install the required dependencies:
 pip install fastapi uvicorn sqlalchemy pydantic
 ```
 
-### 2. Run the Application
+#### 2. Run the Application
 
 Start the FastAPI application with the following command:
 
 ```bash
-uvicorn main:app --reload
+uvicorn app.main:app --reload
+```
+
+### Using uv
+
+#### 1. Install Dependencies and run the application
+
+```bash
+uv run uvicorn app.main:app --reload
 ```
 
 The application will be available at [http://localhost:8000](http://localhost:8000).
 
-### 3. Test with Swagger UI
+## Usage
+
+### 1. Test with Swagger UI
 
 Navigate to [http://localhost:8000/docs](http://localhost:8000/docs) to access the interactive API documentation. Use the Swagger UI to test the endpoints.
 
-### 4. Example curl Usage
+### 2. Example curl Usage
 
 You can also use curl to test the `POST /products/` endpoint. Here's an example:
 
@@ -77,7 +89,7 @@ curl -X 'POST' \
 
 Replace `/full/path/to/image1.png` and `/full/path/to/image2.png` with the actual paths to the files you want to upload.
 
-### 5. Retrieve Uploaded Files
+### 3. Retrieve Uploaded Files
 
 To retrieve a file, use the `GET /files/{filename}` endpoint. For example:
 
