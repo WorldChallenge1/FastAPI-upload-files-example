@@ -1,6 +1,15 @@
 import os
 
-from fastapi import Depends, FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import (
+    Depends,
+    FastAPI,
+    File,
+    Form,
+    HTTPException,
+    Request,
+    UploadFile,
+    status,
+)
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from sqlalchemy import Column, Float, ForeignKey, Integer, String, create_engine
@@ -68,8 +77,11 @@ class ProductResponse(BaseModel):
 app = FastAPI()
 
 
-@app.post("/products/", status_code=201, response_model=ProductResponse)
+@app.post(
+    "/products/", status_code=status.HTTP_201_CREATED, response_model=ProductResponse
+)
 async def create_product(
+    request: Request,
     product: ProductRequest = Depends(),
     files: list[UploadFile] = File(...),
     db: Session = Depends(get_db),
@@ -93,7 +105,8 @@ async def create_product(
         db.add(image_record)
 
         # Create a URL for the image
-        image_url = f"/images/{file.filename}"
+        base_url = str(request.base_url).rstrip("/")
+        image_url = f"{base_url}/files/{file.filename}"
         image_urls.append(image_url)
 
     db.commit()
@@ -106,8 +119,8 @@ async def create_product(
     )
 
 
-@app.get("/images/{filename}")
-async def get_image(filename: str):
+@app.get("/files/{filename}")
+async def get_file(filename: str):
     # Create the full path to the file
     file_path = os.path.join(UPLOAD_DIRECTORY, filename)
 
