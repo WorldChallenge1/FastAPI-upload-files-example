@@ -1,3 +1,4 @@
+import mimetypes
 import os
 
 from fastapi import (
@@ -128,5 +129,10 @@ async def get_file(filename: str):
     if not os.path.isfile(file_path):
         raise HTTPException(status_code=404, detail="File not found")
 
+    # Guess the media type based on the file extension
+    mime_type, _ = mimetypes.guess_type(file_path)
+    if not mime_type:
+        mime_type = "application/octet-stream"  # Fallback for unknown file types
+
     # Return the file as a response
-    return FileResponse(path=file_path, filename=filename, media_type="image/jpeg")
+    return FileResponse(path=file_path, filename=filename, media_type=mime_type)
