@@ -105,7 +105,8 @@ This will download the file named `image1.png` to the current directory.
 
 ```
 .
-├── main.py                # Main application code
+├── app/
+│   └── main.py            # Main application code
 ├── uploaded_files/        # Directory to store uploaded files (created automatically)
 └── test.db                # SQLite database file (created automatically)
 ```
