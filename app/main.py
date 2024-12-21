@@ -126,7 +126,7 @@ async def get_file(filename: str):
 
     # Check if the file exists
     if not os.path.isfile(file_path):
-        raise HTTPException(status_code=404, detail="Image not found")
+        raise HTTPException(status_code=404, detail="File not found")
 
     # Return the file as a response
     return FileResponse(path=file_path, filename=filename, media_type="image/jpeg")
